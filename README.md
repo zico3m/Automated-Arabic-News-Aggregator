@@ -1,4 +1,5 @@
 **Automated Arabic News Aggregator & Classifier**
+
 This repository contains an automated backend pipeline designed to aggregate, process, classify, and store Arabic news articles from multiple prominent RSS feeds across the Arab world. The system integrates real-time web scraping with an AI-powered Natural Language Processing (NLP) classification API built on top of the MARBERT model, storing the enriched and structured data directly into a Supabase database.
 
 **Key Features**
