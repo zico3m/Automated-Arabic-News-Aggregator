@@ -8,3 +8,11 @@ feedparser
 requests
 beautifulsoup4
 supabase
+feedparser
+requests
+beautifulsoup4
+supabase
+transformers
+torch
+accelerate
+sentencepiece
