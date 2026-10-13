@@ -60,12 +60,15 @@ ALLOWED_CATEGORIES = {
 # Religion is mapped to culture because there is currently no religion category
 # in ALLOWED_CATEGORIES.
 CATEGORY_MAPPING = {
-    "culture": "culture",
+    "tech": "technology",
+    "technology": "technology",
     "finance": "economy",
-    "medical": "health",
+    "economics": "economy",
+    "economy": "economy",
     "politics": "politics",
-    "religion": "culture",
     "sports": "sports",
+    "health": "health",
+    "culture": "culture",
 }
 
 HEADERS = {
@@ -73,7 +76,6 @@ HEADERS = {
 }
 
 MAX_CHARS = 2000
-DEFAULT_CATEGORY_ID = ALLOWED_CATEGORIES["culture"]
 
 # =============================
 # INIT
@@ -209,15 +211,12 @@ def main():
 
                 predicted_raw = classify(content)
                 mapped_category = CATEGORY_MAPPING.get(predicted_raw)
+                status = "pending"
+                category_id = None
 
-                # Publish valid scraped news. If classification fails or returns
-                # an unmapped label, use Culture as a fallback so the story does
-                # not remain invisible to the Flutter query for status=published.
-                category_id = DEFAULT_CATEGORY_ID
-                if mapped_category in ALLOWED_CATEGORIES:
+                if mapped_category and mapped_category in ALLOWED_CATEGORIES:
                     category_id = ALLOWED_CATEGORIES[mapped_category]
-
-                status = "published"
+                    status = "published"
 
                 supabase.table("news").insert({
                     "title": title,
@@ -231,10 +230,7 @@ def main():
                 }).execute()
 
                 added += 1
-                print(
-                    f"Added ({status}) | model={predicted_raw} "
-                    f"| mapped={mapped_category or 'fallback:culture'} | {title}"
-                )
+                print(f"Added ({status}): {title}")
 
             except Exception as e:
                 print(f"WARNING: Failed processing article '{title}': {e}")
