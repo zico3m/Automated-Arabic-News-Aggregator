@@ -1,4 +1,4 @@
-import os
+import osh
 import re
 import feedparser
 import requests
